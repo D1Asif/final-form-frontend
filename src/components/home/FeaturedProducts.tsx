@@ -1,7 +1,6 @@
 import { Button } from "keep-react"
-import { ProductCard } from "../product/ProductCard"
 import { ArrowRight } from "phosphor-react"
-
+import ProductList from "../product/ProductList"
 
 export default function FeaturedProducts() {
     const featuredProducts = [
@@ -16,24 +15,7 @@ export default function FeaturedProducts() {
     return (
         <div className="px-6 md:px-10 py-10">
             <h1 className="text-heading-5 font-semibold mb-5">Featured Products</h1>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
-                {
-                    featuredProducts.map((product) => (
-                        <ProductCard product={product} />
-                    ))
-                }
-                <ProductCard product={featuredProducts[0]} />
-                <ProductCard product={featuredProducts[0]} />
-                <ProductCard product={featuredProducts[0]} />
-                {/* <div className="flex justify-center items-center w-full h-full border rounded-xl hover:bg-gray-200">
-                    <div>
-                        <Button size="lg">
-                            Explore More &nbsp;
-                        </Button>
-
-                    </div>
-                </div> */}
-            </div>
+            <ProductList products={featuredProducts} />
             <div className="flex justify-center py-8">
                 <Button size="lg">
                     Explore More &nbsp;
