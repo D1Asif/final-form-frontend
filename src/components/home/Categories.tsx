@@ -15,12 +15,12 @@ export default function Categories() {
         },
         {
             title: "Apparel",
-            link: "/products?category=shoes",
+            link: "/products?category=apparel",
             img: ApparelImage
         },
         {
             title: "Equipments",
-            link: "/products?category=shoes",
+            link: "/products?category=equipments",
             img: EquipmentImage
         },
         {
@@ -35,9 +35,9 @@ export default function Categories() {
             <div className="grid grid-cols-2 sm:grid-cols-2 xl:grid-cols-4 gap-6 justify-between">
                 {
                     categories.map((item) => (
-                        <Link className="rounded-lg md:flex-1 relative group" to={item.link}>
+                        <Link className="rounded-2xl md:flex-1 relative group" to={item.link}>
                             {/* {item.title} */}
-                            <img src={item.img} className="rounded-lg h-full w-full object-cover" alt="" />
+                            <img src={item.img} className="rounded-2xl h-full w-full object-cover" alt="" />
                             <div className="opacity-0 group-hover:opacity-100 rounded-lg absolute right-0 left-0 bottom-0 top-0 bg-black/60 transition-all duration-300 ease-in-out">
                             </div>
                             <div className="flex items-center absolute left-2 bottom-2 sm:left-4 sm:bottom-4 text-lg sm:text-2xl font-semibold group-hover:text-white" >
