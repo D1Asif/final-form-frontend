@@ -7,10 +7,10 @@ import { ReactNode } from "react";
 const Footer = () => {
     return (
         <>
-            <footer className="relative z-5 bg-black text-white pt-14 pb-6 lg:pt-20 lg:pb-14 px-4 md:px-20 mt-auto">
+            <footer className="relative z-5 bg-black text-white pt-14 pb-6 lg:pt-20 lg:pb-14 px-8 md:px-10 mt-auto">
                 <div>
                     <div className="flex flex-wrap justify-between">
-                        <div className="w-full px-4 sm:w-2/3 lg:w-3/12">
+                        <div className="w-full sm:w-2/3 lg:w-3/12">
                             <div className="mb-10 w-full">
                                 <Link to="/" className="mb-6 inline-block max-w-[180px]">
                                     <img
@@ -24,25 +24,23 @@ const Footer = () => {
                                 </p>
                                 <p className="flex items-center text-sm font-medium text-dark dark:text-white">
                                     <Phone size={24} />
-                                    <span>&nbsp;+012 (345) 678 99</span>
+                                    <span>&nbsp;+02 (345) 678 99</span>
                                 </p>
                             </div>
                         </div>
-
                         <LinkGroup header="Resources">
-                            <NavLink link="/#" label="SaaS Development" />
+                            <NavLink link="/#" label="Fitness Club" />
                             <NavLink link="/#" label="Our Products" />
-                            <NavLink link="/#" label="User Flow" />
+                            <NavLink link="/#" label="Health Tracker" />
                         </LinkGroup>
                         <LinkGroup header="Company">
-                            <NavLink link="/#" label="About TailGrids" />
+                            <NavLink link="/#" label="About FinalForm" />
                             <NavLink link="/#" label="Contact & Support" />
                             <NavLink link="/#" label="Success History" />
                         </LinkGroup>
-
-                        <div className="w-full px-4 sm:w-1/2 lg:w-3/12">
+                        <div className="w-full sm:w-1/2 lg:w-3/12">
                             <div className="mb-10 w-full">
-                                <h4 className="mb-9 text-lg font-semibold text-dark dark:text-white">
+                                <h4 className="mb-6 text-lg font-semibold text-dark dark:text-white">
                                     Follow Us On
                                 </h4>
                                 <div className="mb-6 flex gap-5 items-center">
@@ -70,9 +68,9 @@ export default Footer;
 const LinkGroup = ({ children, header }: {children: ReactNode, header: string}) => {
     return (
         <>
-            <div className="w-full px-4 sm:w-1/2 lg:w-2/12">
+            <div className="w-full sm:w-1/2 lg:w-2/12">
                 <div className="mb-10 w-full">
-                    <h4 className="mb-9 text-xl font-semibold">
+                    <h4 className="mb-6 text-xl font-semibold">
                         {header}
                     </h4>
                     <ul className="space-y-3">{children}</ul>
