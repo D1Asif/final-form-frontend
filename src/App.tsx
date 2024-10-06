@@ -7,7 +7,7 @@ import ProductDetailsPage from './pages/ProductDetailsPage'
 import AboutUsPage from './pages/AboutUsPage'
 import CartPage from './pages/CartPage'
 import CheckoutPage from './pages/CheckoutPage'
-import ProductManagement from './pages/ProductManagement'
+import ProductManagementPage from './pages/ProductManagementPage'
 
 function App() {
 
@@ -20,7 +20,7 @@ function App() {
           <Route path='/products/:id' element={<ProductDetailsPage />} />
           <Route path='/cart' element={<CartPage />} />
           <Route path='/checkout' element={<CheckoutPage />} />
-          <Route path='/product-management' element={<ProductManagement />} />
+          <Route path='/product-management' element={<ProductManagementPage />} />
           <Route path='/about-us' element={<AboutUsPage />} />
         </Route>
       </Routes>
