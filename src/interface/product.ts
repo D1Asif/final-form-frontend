@@ -1,7 +1,10 @@
 export type TProduct = {
-    name: string,
-    images: string[],
-    category: string,
-    price: number,
-    tags: string[]
+    _id: string;
+    name: string;
+    price: number;          
+    description: string;    
+    images: string[];       
+    category: string;       
+    stock: number;
+    tags: string[];
 }

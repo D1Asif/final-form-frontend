@@ -35,7 +35,7 @@ export default function Categories() {
             <div className="grid grid-cols-2 sm:grid-cols-2 xl:grid-cols-4 gap-6 justify-between">
                 {
                     categories.map((item) => (
-                        <Link className="rounded-2xl md:flex-1 relative group" to={item.link}>
+                        <Link className="rounded-2xl md:flex-1 relative group" to={item.link} key={item.title}>
                             {/* {item.title} */}
                             <img src={item.img} className="rounded-2xl h-full w-full object-cover" alt="" />
                             <div className="opacity-0 group-hover:opacity-100 rounded-lg absolute right-0 left-0 bottom-0 top-0 bg-black/60 transition-all duration-300 ease-in-out">

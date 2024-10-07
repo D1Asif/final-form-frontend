@@ -12,10 +12,12 @@ export default function HeroSection() {
                 <p className="text-heading-5">
                     <i>Transform your body. Empower your mind.</i>
                 </p>
-                <Button size="xl" className="mt-3">
-                    Explore
-                    <ArrowRight size={20} weight="bold" className="ml-1.5" />
-                </Button>
+                <a href="#categories" id="categories">
+                    <Button size="xl" className="mt-3">
+                        Explore
+                        <ArrowRight size={20} weight="bold" className="ml-1.5" />
+                    </Button>
+                </a>
             </div>
         </div>
     )

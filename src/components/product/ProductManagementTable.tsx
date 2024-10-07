@@ -1,4 +1,4 @@
-import { DotsThreeOutlineVertical, Funnel, Plus } from 'phosphor-react'
+import { DotsThreeOutlineVertical, Funnel } from 'phosphor-react'
 import {
     Badge,
     Button,
@@ -15,101 +15,22 @@ import {
     TableHeader,
     TableRow,
 } from 'keep-react'
-
-const data3 = [
-    {
-        id: 1,
-        title: "Apple Watch Series 7 - 44mm",
-        price: "$399",
-        category: "Wearables",
-        rating: {
-            rate: 4.8,
-            count: 1500
-        }
-    },
-    {
-        id: 2,
-        title: "Beylob 90 Speaker",
-        price: "$99",
-        category: "Speakers",
-        rating: {
-            rate: 4.4,
-            count: 620
-        }
-    },
-    {
-        id: 3,
-        title: "Beoplay M5 Bluetooth Speaker",
-        price: "$129",
-        category: "Speakers",
-        rating: {
-            rate: 4.6,
-            count: 890
-        }
-    },
-    {
-        id: 4,
-        title: "Samsung Galaxy Buds Pro",
-        price: "$149",
-        category: "Headphones",
-        rating: {
-            rate: 4.5,
-            count: 2000
-        }
-    },
-    {
-        id: 5,
-        title: "Nike Air Zoom Pegasus 38",
-        price: "$120",
-        category: "Shoes",
-        rating: {
-            rate: 4.7,
-            count: 3400
-        }
-    },
-    {
-        id: 5,
-        title: "Nike Air Zoom Pegasus 38",
-        price: "$120",
-        category: "Shoes",
-        rating: {
-            rate: 4.7,
-            count: 3400
-        }
-    },
-    {
-        id: 5,
-        title: "Nike Air Zoom Pegasus 38",
-        price: "$120",
-        category: "Shoes",
-        rating: {
-            rate: 4.7,
-            count: 3400
-        }
-    },
-    {
-        id: 5,
-        title: "Nike Air Zoom Pegasus 38",
-        price: "$120",
-        category: "Shoes",
-        rating: {
-            rate: 4.7,
-            count: 3400
-        }
-    },
-    {
-        id: 5,
-        title: "Nike Air Zoom Pegasus 38",
-        price: "$120",
-        category: "Shoes",
-        rating: {
-            rate: 4.7,
-            count: 3400
-        }
-    },
-];
+import AddNewProductModal from './AddNewProductModal';
+import { useEffect, useState } from 'react';
+import { TProduct } from '../../interface/product';
 
 export const ProductManagementTable = () => {
+    const [products, setProducts] = useState<TProduct[]>([]);
+
+    useEffect(() => {
+        const fetchProducts = async () => {
+            const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/products`)
+            const data = await res.json()
+            setProducts(data.data)
+        }
+        fetchProducts()
+    }, []);
+
     return (
         <Table>
             <TableCaption className='px-0 py-7'>
@@ -121,12 +42,9 @@ export const ProductManagementTable = () => {
                         </Badge>
                     </div>
                     <div className="flex items-center gap-5">
-                        <Button size='lg' className="flex gap-1.5 text-lg">
-                            <Plus className="size-5 fill-metal-900 dark:fill-white" />
-                            Add Product
-                        </Button>
+                        <AddNewProductModal />
                         <Button size='lg' variant="outline" className="flex gap-1.5 text-lg">
-                            <Funnel className="size-5 fill-metal-900 dark:fill-white" />
+                            <Funnel className="size-5" />
                             Filter Product
                         </Button>
                     </div>
@@ -153,13 +71,13 @@ export const ProductManagementTable = () => {
                 </TableRow>
             </TableHeader>
             <TableBody>
-                {data3.map((item) => (
-                    <TableRow key={item.id}>
-                        <TableCell className='text-lg'>{item.title}</TableCell>
+                {products?.map((item) => (
+                    <TableRow key={item._id}>
+                        <TableCell className='text-lg'>{item.name}</TableCell>
                         <TableCell className='text-lg'>{item.price}</TableCell>
                         <TableCell className='text-lg'>{item.category}</TableCell>
-                        <TableCell className='text-lg'>{item.rating.rate}</TableCell>
-                        <TableCell className='text-lg'>{item.rating.count}</TableCell>
+                        <TableCell className='text-lg'>{4.5}</TableCell>
+                        <TableCell className='text-lg'>{item.stock}</TableCell>
                         <TableCell>
                             <Dropdown>
                                 <DropdownAction asChild>
@@ -170,7 +88,6 @@ export const ProductManagementTable = () => {
                                 <DropdownContent className="max-w-[200px] border border-metal-100 p-3">
                                     <DropdownList>
                                         <DropdownItem>Edit</DropdownItem>
-                                        <DropdownItem>Move</DropdownItem>
                                         <DropdownItem>Delete</DropdownItem>
                                     </DropdownList>
                                 </DropdownContent>

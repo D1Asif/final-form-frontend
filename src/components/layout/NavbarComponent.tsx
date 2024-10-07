@@ -33,7 +33,7 @@ export default function NavbarComponent() {
     ]
 
     const menu = menuItems.map((item: TMenuItem) => (
-        <NavbarItem className='text-body-2'>
+        <NavbarItem className='text-body-2' key={item.name}>
             <Link to={item.path}>{item.name}</Link>
         </NavbarItem>
     ))

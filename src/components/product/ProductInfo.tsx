@@ -1,12 +1,15 @@
 import { Button } from "keep-react";
 import { CreditCard, GlobeHemisphereEast, Recycle, Star } from "phosphor-react";
+import { TProduct } from "../../interface/product";
 
 
-export default function ProductInfo() {
+export default function ProductInfo({product}: {product: TProduct}) {
     return (
         <div className="max-w-lg">
             {/* Product Title */}
-            <h1 className="text-3xl font-bold mb-2">Jenny’s Closets - The winter top for female, green</h1>
+            <h1 className="text-3xl font-bold mb-2">
+                {product?.name}
+            </h1>
 
             {/* Star Rating and Reviews */}
             <div className="flex items-center mb-4">
@@ -20,7 +23,7 @@ export default function ProductInfo() {
 
             {/* Pricing */}
             <div className="flex items-baseline space-x-3 mb-4">
-                <p className="text-2xl font-bold text-black">$49</p>
+                <p className="text-2xl font-bold text-black">${product.price}</p>
                 {/* <p className="text-gray-500 line-through">$99</p> */}
             </div>
             {/* <p className="text-gray-500 mb-4">Save 50% right now</p> */}
@@ -28,7 +31,7 @@ export default function ProductInfo() {
             {/* Features */}
             <h2 className="text-xl font-semibold mb-2">Description</h2>
             <p className="text-gray-500 space-y-1 text-lg mb-4">
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ex eveniet fuga molestiae nostrum in! Accusamus assumenda earum, velit delectus nam commodi esse optio sequi reiciendis ad rem, sapiente laboriosam dolor.
+                {product.description}
             </p>
 
             {/* Colors */}

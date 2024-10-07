@@ -24,7 +24,7 @@ export default function BenefitSection() {
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                 {
                     benefits.map((item) => (
-                        <div className="flex flex-col items-center">
+                        <div className="flex flex-col items-center" key={item.title}>
                             {item.icon}
                             <h1 className="text-center font-bold text-3xl">
                                 {item.title}

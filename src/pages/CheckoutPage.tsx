@@ -1,9 +1,7 @@
-import { useState } from "react";
-import OrderItemCard from "../components/cart/OrderItemCard";
-import { Button, Input, Label, Radio, Textarea } from "keep-react";
+import { Input, Label, Radio, Textarea } from "keep-react";
+import CheckoutOrderSummary from "../components/checkout/CheckoutOrderSummary";
 
 const CheckoutPage = () => {
-  const [paymentMethod, setPaymentMethod] = useState("creditCard");
 
   return (
     <div className="px-6 md:px-10 pt-[110px] md:pt-[135px] mb-10">
@@ -67,36 +65,7 @@ const CheckoutPage = () => {
         </div>
 
         {/* Right Column: Order Summary */}
-        <div className="flex-grow">
-          <div className="bg-gray-50 p-6 mt-8 lg:mt-0 rounded-lg">
-            <h3 className="text-heading-5 font-medium mb-4">Order details</h3>
-            <ul className="space-y-4">
-              <OrderItemCard item={{ name: "he", image: "https://cdn.rareblocks.xyz/collection/clarity-ecommerce/images/cart-page/1/product-1.png", price: 20, description: "gelodwen" }} />
-              <OrderItemCard item={{ name: "he", image: "https://cdn.rareblocks.xyz/collection/clarity-ecommerce/images/cart-page/1/product-1.png", price: 20, description: "gelodwen" }} />
-              <OrderItemCard item={{ name: "he", image: "https://cdn.rareblocks.xyz/collection/clarity-ecommerce/images/cart-page/1/product-1.png", price: 20, description: "gelodwen" }} />
-            </ul>
-
-            <div className="space-y-4 text-slate-600 font-semibold mt-6">
-              <div className="flex justify-between text-lg">
-                <span>Subtotal:</span>
-                <span>$100</span>
-              </div>
-              <div className="flex justify-between text-lg">
-                <span>Tax:</span>
-                <span>$0.00</span>
-              </div>
-              <div className="flex justify-between text-lg">
-                <span>Shipping:</span>
-                <span>$10</span>
-              </div>
-              <div className="border-t border-gray-200 pt-4 flex justify-between font-bold text-xl text-slate-800">
-                <span>Total:</span>
-                <span>$110</span>
-              </div>
-            </div>
-            <Button size="lg" className="w-full mt-6">Place Order</Button>
-          </div>
-        </div>
+        <CheckoutOrderSummary />
       </div>
     </div >
   );
