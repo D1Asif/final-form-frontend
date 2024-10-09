@@ -5,7 +5,6 @@ import {
     Dropdown,
     DropdownAction,
     DropdownContent,
-    DropdownItem,
     DropdownList,
     Spinner,
     Table,
@@ -19,6 +18,7 @@ import {
 import AddNewProductModal from './AddNewProductModal';
 import { useEffect, useState } from 'react';
 import { TProduct } from '../../interface/product';
+import DeleteProductConfirmationModal from './DeleteProductConfirmationModal';
 
 export const ProductManagementTable = () => {
     const [products, setProducts] = useState<TProduct[]>([]);
@@ -37,15 +37,15 @@ export const ProductManagementTable = () => {
             try {
                 const res = await fetch(url)
                 const data = await res.json()
-    
+
                 setProducts((prevProducts) => [...prevProducts, ...data.data]);
-    
+
                 if (data.data.length === 0) {
                     setHasMore(false);
                 }
             } catch (err) {
                 console.log("Failed to fetch products", err);
-            } finally{
+            } finally {
                 setLoading(false)
             }
         }
@@ -127,7 +127,7 @@ export const ProductManagementTable = () => {
                                             <DropdownContent className="max-w-[200px] border border-metal-100 p-3">
                                                 <DropdownList>
                                                     <AddNewProductModal editingProduct={product} />
-                                                    <DropdownItem>Delete</DropdownItem>
+                                                    <DeleteProductConfirmationModal productId={product._id} />
                                                 </DropdownList>
                                             </DropdownContent>
                                         </Dropdown>

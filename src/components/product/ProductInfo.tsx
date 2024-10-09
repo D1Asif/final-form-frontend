@@ -1,9 +1,13 @@
 import { Button } from "keep-react";
 import { CreditCard, GlobeHemisphereEast, Recycle, Star } from "phosphor-react";
 import { TProduct } from "../../interface/product";
+import { useAppDispatch } from "../../redux/hooks";
+import { addToCart } from "../../redux/features/cart/cartSlice";
 
 
 export default function ProductInfo({product}: {product: TProduct}) {
+    const dispatch = useAppDispatch();
+
     return (
         <div className="max-w-lg">
             {/* Product Title */}
@@ -46,7 +50,7 @@ export default function ProductInfo({product}: {product: TProduct}) {
             </div>
 
             {/* Buttons */}
-            <Button className="mb-5 text-black" color="warning" size="lg">
+            <Button className="mb-5 text-black" color="warning" size="lg" onClick={() => dispatch(addToCart({productId: product._id, quantity: 1}))}>
                 Add to Cart
             </Button>
             {/* <Button className="mb-5" size="lg">

@@ -11,10 +11,11 @@ import {
     NumberInput,
     NumberInputBox,
     Textarea,
-    toast,
+    toast
 } from 'keep-react'
 import { useState } from 'react'
 import { TProduct } from '../../interface/product'
+import { useAddProductMutation, useUpdateProductMutation } from '../../redux/api/baseApi'
 
 const AddNewProductModal = ({ editingProduct }: { editingProduct?: TProduct }) => {
     const [formState, setFormSate] = useState({
@@ -27,6 +28,11 @@ const AddNewProductModal = ({ editingProduct }: { editingProduct?: TProduct }) =
         tags: editingProduct ? editingProduct.tags.join(",") : ""
     })
 
+    const [isModalOpen, setIsModalOpen] = useState(false)
+
+    const [addProduct, { data: addData, isError: addError }] = useAddProductMutation();
+    const [updateProduct, { data: updateData, isError: updateError }] = useUpdateProductMutation();
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setFormSate({
             ...formState,
@@ -37,44 +43,38 @@ const AddNewProductModal = ({ editingProduct }: { editingProduct?: TProduct }) =
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        console.log({
+        const body = {
             ...formState,
             price: Number(formState.price),
             stock: Number(formState.stock),
             images: formState.images.split("|"),
             tags: formState.tags ? formState.tags.split(",") : []
-        })
-
-        const url = editingProduct ? `${import.meta.env.VITE_API_BASE_URL}/products/${editingProduct._id}` : `${import.meta.env.VITE_API_BASE_URL}/products`
-
-        const res = await fetch(url, {
-            method: editingProduct ? 'PUT' : 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                ...formState,
-                price: Number(formState.price),
-                stock: Number(formState.stock),
-                images: formState.images.split("|"),
-                tags: formState.tags ? formState.tags.split(",") : []
-            })
-        });
-
-        const data = await res.json();
-
-        console.log(data);
-
-        if (data.success) {
-            toast.success(editingProduct ? "Saved changes" : "Product successfully created")
-            window.location.reload()
-        } else {
-            toast.error("Something went wrong!")
         }
+
+        if (editingProduct) {
+            updateProduct({
+                productId: editingProduct._id,
+                body
+            })
+        } else {
+            addProduct(body)
+        }
+
+        setIsModalOpen(false)
+    }
+
+    if (addData) {
+        toast.success("Product successfully added")
+    }
+    if (updateData) {
+        toast.success("Product successfully updated")
+    }
+    if (addError || updateError) {
+        toast.error("Something went wrong")
     }
 
     return (
-        <Modal>
+        <Modal isOpen={isModalOpen} onOpenChange={setIsModalOpen}>
             <ModalAction asChild>
                 {
                     editingProduct ? (
@@ -93,7 +93,7 @@ const AddNewProductModal = ({ editingProduct }: { editingProduct?: TProduct }) =
             </ModalAction>
             <ModalContent className='pr-0 lg:w-1/3'>
                 <ModalClose className="absolute right-5 top-5" />
-                <form className="space-y-3 max-h-[600px] overflow-y-auto mt-7  pl-1 pr-4" onSubmit={handleSubmit}>
+                <form className="space-y-3 max-h-[75vh] overflow-y-auto mt-7  pl-1 pr-4" onSubmit={handleSubmit}>
                     <fieldset className="space-y-1">
                         <Label htmlFor="name">Name*</Label>
                         <div className="relative">
@@ -119,7 +119,6 @@ const AddNewProductModal = ({ editingProduct }: { editingProduct?: TProduct }) =
                                     onChange={handleChange}
                                     className='text-left font-normal'
                                     id='price'
-                                    defaultValue={0}
                                     required
                                 />
                             </NumberInput>
@@ -184,7 +183,6 @@ const AddNewProductModal = ({ editingProduct }: { editingProduct?: TProduct }) =
                                     value={formState.stock}
                                     onChange={handleChange}
                                     id="stock"
-                                    defaultValue={0}
                                     required
                                 />
                                 <div className='cursor-pointer'>
@@ -200,9 +198,14 @@ const AddNewProductModal = ({ editingProduct }: { editingProduct?: TProduct }) =
                         </div>
                     </fieldset>
                     <fieldset className="space-y-1">
-                        <Label htmlFor="tags">Tags*</Label>
+                        <Label htmlFor="tags">Tags</Label>
                         <div className="relative">
-                            <Input id="tags" type="text" placeholder="Enter product tags" />
+                            <Input 
+                                id="tags" 
+                                type="text" 
+                                placeholder="Enter product tags"
+                                onChange={handleChange}
+                            />
                         </div>
                     </fieldset>
                     <Button type="submit" className="!mt-4 block w-full" >
