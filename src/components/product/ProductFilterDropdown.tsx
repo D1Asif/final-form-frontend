@@ -43,7 +43,7 @@ export default function ProductFilterDropdown() {
 
     useEffect(() => {
         debouncedHandlePriceRangeChange()
-    }, [priceRange, debouncedHandlePriceRangeChange])
+    }, [priceRange])
 
     return (
         <Dropdown>

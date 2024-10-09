@@ -4,6 +4,7 @@ import ProductList from "../components/product/ProductList";
 import { useSearchParams } from "react-router-dom";
 import { Spinner } from "keep-react";
 import { TProduct } from "../interface/product";
+import { useGetProductsQuery } from "../redux/api/baseApi";
 
 export default function ProductsPage() {
   const [products, setProducts] = useState<TProduct[]>([]);
@@ -15,12 +16,22 @@ export default function ProductsPage() {
   const params = new URLSearchParams(searchParams);
   params.set("page", page.toString())
 
+  // const { data } = useGetProductsQuery();
+
+  // console.log(data);
+  console.log("called");
+
+  // // console.log(page);
+
+  
+
   const url = `${import.meta.env.VITE_API_BASE_URL}/products` + "?" + params.toString()
 
   useEffect(() => {
     setProducts([])
     setPage(1)
     setHasMore(true)
+    console.log("Called");
   }, [searchParams])
 
   useEffect(() => {
@@ -29,10 +40,10 @@ export default function ProductsPage() {
       try {
         const response = await fetch(url);
         const data = await response.json();
-  
+
         // Append new products to the current list of products
         setProducts((prevProducts) => [...prevProducts, ...data.data]);
-  
+
         // If no more products are returned, set hasMore to false
         if (data.data.length === 0) {
           setHasMore(false);
@@ -47,7 +58,7 @@ export default function ProductsPage() {
     fetchMoreProducts()
   }, [url]);
 
-  
+
   useEffect(() => {
     const handleScroll = () => {
       if (
@@ -58,7 +69,7 @@ export default function ProductsPage() {
         setPage((prevPage) => prevPage + 1);
       }
     };
-    
+
     window.addEventListener("scroll", handleScroll);
 
     return () => window.removeEventListener("scroll", handleScroll);
@@ -71,7 +82,7 @@ export default function ProductsPage() {
         <Actions />
       </div>
       {
-        products.length > 0 ? (
+        products?.length > 0 ? (
           <ProductList products={products} />
         ) : (
           <div>
