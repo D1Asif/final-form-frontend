@@ -8,7 +8,7 @@ export default function CartItemList({ cartItems }: { cartItems: TCartItem[] }) 
 
             <div className="grid grid-cols-1 gap-6">
                 {cartItems.map((item) => (
-                    <OrderItemCard cartItem={item} fromCart={true} />
+                    <OrderItemCard cartItem={item} fromCart={true} key={item.productId} />
                 ))}
             </div>
         </div>

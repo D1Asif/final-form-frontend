@@ -2,10 +2,28 @@ import { Button } from "keep-react";
 import { ShoppingCart } from "phosphor-react";
 import { Link } from "react-router-dom";
 import { useAppSelector } from "../../redux/hooks";
+import { useEffect } from "react";
 
 
 export default function CartButton() {
     const { items } = useAppSelector((selector) => selector.cart)
+    
+    useEffect(() => {
+        if (items.length === 0) {
+            return;
+        }
+
+        const handleOnBeforeUnload = (e: BeforeUnloadEvent) => {
+            e.preventDefault();
+            return (e.returnValue = '');
+        }
+
+        window.addEventListener("beforeunload", handleOnBeforeUnload);
+
+        return () => {
+            window.removeEventListener("beforeunload", handleOnBeforeUnload);
+        }
+    }, [items.length])
 
     return (
         <Link to="/cart">

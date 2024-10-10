@@ -23,45 +23,52 @@ export default function OrderItemCard({ cartItem, fromCart }: TOrderItemCard) {
             {/* Product Image and Description */}
             <div className="flex items-center w-full md:w-auto gap-6">
                 <img
-                    src={item.images[0]}
-                    alt={item.name}
+                    src={item?.images[0]}
+                    alt={item?.name}
                     className="w-24 h-24 object-cover rounded-md"
                 />
                 <div className="max-w-[500px]">
-                    <Link to={`/products/${item._id}`}>
-                        <h2 className="text-lg font-semibold text-gray-800">{item.name}</h2>
+                    <Link to={`/products/${item?._id}`}>
+                        <h2 className="text-lg font-semibold text-gray-800">{item?.name}</h2>
                     </Link>
-                    <p className="text-sm text-gray-500">{item.category}</p>
+                    <p className="text-sm text-gray-500">{item?.category}</p>
                 </div>
             </div>
 
             {/* Quantity, Price, and Remove Button */}
             <div className="flex items-center justify-between w-full md:w-[320px]">
                 {fromCart && (
-                    // <select className="border border-gray-300 rounded-md p-2">
-                    //     <option>1</option>
-                    //     {/* Add dynamic quantity logic here */}
-                    // </select>
                     <NumberInput className="max-w-xs">
                         <NumberInputButton
-                            disabled={cartItem.quantity === 1}
-                            onClick={() => dispatch(updateQuantity({ productId: cartItem.productId, quantity: -1 }))}
+                            disabled={cartItem?.quantity === 1}
+                            onClick={() => dispatch(updateQuantity({ productId: cartItem?.productId, quantity: -1 }))}
                         >
                             <Minus size={16} color="#455468" />
                         </NumberInputButton>
-                        <NumberInputBox disabled value={cartItem.quantity} className="w-12 border-x mx-4" />
+                        <NumberInputBox disabled value={cartItem?.quantity} className="w-12 border-x mx-4" />
                         <NumberInputButton
-                            onClick={() => dispatch(updateQuantity({ productId: cartItem.productId, quantity: +1 }))}
+                            onClick={() => dispatch(updateQuantity({ productId: cartItem?.productId, quantity: +1 }))}
                         >
                             <Plus size={16} color="#455468" />
                         </NumberInputButton>
                     </NumberInput>
                 )}
-                <p className="text-lg font-medium text-gray-900">${(item.price * cartItem.quantity).toFixed(2)}</p>
+                {
+                    !fromCart && (
+                        // <NumberInput className="max-w-xs">
+                        //     x
+                        //     <NumberInputBox disabled value={cartItem.quantity} className="w-8" />
+                        // </NumberInput>
+                        <div className="ml-10">x {cartItem?.quantity}</div>
+                    )
+                }
+                <p className="text-lg font-medium text-gray-900">
+                    ${(item?.price * cartItem?.quantity).toFixed(2)}
+                </p>
                 {fromCart && (
                     <button
                         className="text-red-500 hover:text-red-600 transition-colors"
-                        onClick={() => dispatch(deleteCartItem({ productId: cartItem.productId }))}
+                        onClick={() => dispatch(deleteCartItem({ productId: cartItem?.productId }))}
                     >
                         <svg
                             className="w-6 h-6"
