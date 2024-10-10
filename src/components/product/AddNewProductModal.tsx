@@ -13,7 +13,7 @@ import {
     Textarea,
     toast
 } from 'keep-react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { TProduct } from '../../interface/product'
 import { useAddProductMutation, useUpdateProductMutation } from '../../redux/api/baseApi'
 
@@ -51,6 +51,8 @@ const AddNewProductModal = ({ editingProduct }: { editingProduct?: TProduct }) =
             tags: formState.tags ? formState.tags.split(",") : []
         }
 
+        console.log(body);
+
         if (editingProduct) {
             updateProduct({
                 productId: editingProduct._id,
@@ -64,14 +66,17 @@ const AddNewProductModal = ({ editingProduct }: { editingProduct?: TProduct }) =
     }
 
     if (addData) {
-        toast.success("Product successfully added")
+        window.location.reload()
     }
     if (updateData) {
-        toast.success("Product successfully updated")
+        window.location.reload()
     }
-    if (addError || updateError) {
-        toast.error("Something went wrong")
-    }
+
+    useEffect(() => {
+        if (addError || updateError) {
+            toast.error("Something went wrong")
+        }
+    }, [addError, updateError])
 
     return (
         <Modal isOpen={isModalOpen} onOpenChange={setIsModalOpen}>

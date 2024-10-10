@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Actions from "../components/product/Actions";
 import ProductList from "../components/product/ProductList";
 import { useSearchParams } from "react-router-dom";
@@ -15,22 +15,36 @@ export default function ProductsPage() {
   const params = new URLSearchParams(searchParams);
   params.set("page", page.toString())
 
-  const url = `${import.meta.env.VITE_API_BASE_URL}/products` + "?" + params.toString()
+  const fetch_url = `${import.meta.env.VITE_API_BASE_URL}/products` + "?" + params.toString()
+
+  const ref = useRef<AbortController>();
 
   useEffect(() => {
+    console.log("called 1");
     setProducts([])
     setPage(1)
     setHasMore(true)
   }, [searchParams])
 
   useEffect(() => {
+    console.log("called 2");
     const fetchMoreProducts = async () => {
       setLoading(true);
       try {
-        const response = await fetch(url);
+        console.log(`Before: fetch called with ${fetch_url}, Previous data: ${products.length}, searchParam size: ${searchParams.size}`);
+
+        if (ref.current) {
+          ref.current.abort()
+        }
+
+        ref.current = new AbortController();
+        const signal = ref.current.signal;
+
+        const response = await fetch(fetch_url, { signal });
         const data = await response.json();
 
         // Append new products to the current list of products
+        console.log(`After: fetch called with ${fetch_url}, Previous data: ${products.length}`);
         setProducts((prevProducts) => [...prevProducts, ...data.data]);
 
         // If no more products are returned, set hasMore to false
@@ -45,24 +59,24 @@ export default function ProductsPage() {
     };
 
     fetchMoreProducts()
-  }, [url]);
+  }, [fetch_url]);
 
+  // useEffect(() => {
+  //   console.log("called 3");
+  //   const handleScroll = () => {
+  //     if (
+  //       window.innerHeight + window.scrollY >= document.body.offsetHeight - 700 &&
+  //       !loading &&
+  //       hasMore
+  //     ) {
+  //       setPage((prevPage) => prevPage + 1);
+  //     }
+  //   };
 
-  useEffect(() => {
-    const handleScroll = () => {
-      if (
-        window.innerHeight + window.scrollY >= document.body.offsetHeight - 700 &&
-        !loading &&
-        hasMore
-      ) {
-        setPage((prevPage) => prevPage + 1);
-      }
-    };
+  //   window.addEventListener("scroll", handleScroll);
 
-    window.addEventListener("scroll", handleScroll);
-
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [hasMore, loading]);
+  //   return () => window.removeEventListener("scroll", handleScroll);
+  // }, [hasMore, loading]);
 
   return (
     <div className="px-6 md:px-10 pt-28 md:pt-[135px] mb-10">

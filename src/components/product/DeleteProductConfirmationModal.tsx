@@ -1,11 +1,11 @@
-import { Button, DropdownItem, Modal, ModalAction, ModalClose, ModalContent, ModalDescription, ModalFooter, ModalHeader, ModalTitle } from "keep-react";
+import { Button, DropdownItem, Modal, ModalAction, ModalClose, ModalContent, ModalDescription, ModalFooter, ModalHeader, ModalTitle, toast } from "keep-react";
 import { Trash } from "phosphor-react";
 import { useDeleteProductMutation } from "../../redux/api/baseApi";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 
 export default function DeleteProductConfirmationModal({ productId }: { productId: string }) {
-    const [deleteProduct] = useDeleteProductMutation();
+    const [deleteProduct, {data, isError}] = useDeleteProductMutation();
     const [isModalOpen, setIsModalOpen] = useState(false);
     
     const handleDelete = () => {
@@ -13,6 +13,15 @@ export default function DeleteProductConfirmationModal({ productId }: { productI
 
         setIsModalOpen(false)
     }
+
+    useEffect(() => {
+        if (data?.success) {
+            window.location.reload()
+        }
+        if (isError) {
+            toast.error("Something went wrong!")
+        }
+    }, [data?.success, isError])
 
     return (
         <Modal isOpen={isModalOpen} onOpenChange={setIsModalOpen}>

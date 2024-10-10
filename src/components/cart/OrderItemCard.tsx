@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useGetProductByIdQuery } from "../../redux/api/baseApi"
 import { deleteCartItem, TCartItem, updateQuantity } from "../../redux/features/cart/cartSlice"
-import { NumberInput, NumberInputBox, NumberInputButton } from "keep-react";
+import { NumberInput, NumberInputBox, NumberInputButton, toast } from "keep-react";
 import { Minus, Plus } from "phosphor-react";
 import { useAppDispatch } from "../../redux/hooks";
 
@@ -14,7 +14,23 @@ export default function OrderItemCard({ cartItem, fromCart }: TOrderItemCard) {
     const { data } = useGetProductByIdQuery(cartItem.productId);
     const item = data?.data;
 
-    const dispatch = useAppDispatch()
+    const dispatch = useAppDispatch();
+
+    const handleStockInputButton = (buttonType: string) => {
+        if (buttonType === 'increase') {
+            if (cartItem.quantity === item.stock) {
+                toast.error("Product quantity reached stock count for this item!")
+            } else {
+                dispatch(updateQuantity({ productId: cartItem?.productId, quantity: +1 }))
+            }
+        } else {
+            if (cartItem.quantity === 1) {
+                toast.error("Product quantity cannot be less than 1")
+            } else {
+                dispatch(updateQuantity({ productId: cartItem?.productId, quantity: -1 }))
+            }
+        }
+    }
 
     return (
         <div
@@ -40,14 +56,13 @@ export default function OrderItemCard({ cartItem, fromCart }: TOrderItemCard) {
                 {fromCart && (
                     <NumberInput className="max-w-xs">
                         <NumberInputButton
-                            disabled={cartItem?.quantity === 1}
-                            onClick={() => dispatch(updateQuantity({ productId: cartItem?.productId, quantity: -1 }))}
+                            onClick={() => handleStockInputButton('decrease')}
                         >
                             <Minus size={16} color="#455468" />
                         </NumberInputButton>
                         <NumberInputBox disabled value={cartItem?.quantity} className="w-12 border-x mx-4" />
                         <NumberInputButton
-                            onClick={() => dispatch(updateQuantity({ productId: cartItem?.productId, quantity: +1 }))}
+                            onClick={() => handleStockInputButton('increase')}
                         >
                             <Plus size={16} color="#455468" />
                         </NumberInputButton>

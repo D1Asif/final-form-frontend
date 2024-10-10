@@ -114,10 +114,8 @@ export default function ProductFilterDropdown() {
                             <Label htmlFor="-price">Price High to Low</Label>
                         </fieldset>
                     </form>
-                    <Button className="mt-5" size="sm">
-                        <Link to="/products">
-                            Clear Filter
-                        </Link>
+                    <Button className="mt-5" size="sm" onClick={() => window.location.replace("/products")}>
+                        Clear Filter
                     </Button>
                 </DropdownList>
             </DropdownContent>

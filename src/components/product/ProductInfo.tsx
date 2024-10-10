@@ -55,9 +55,19 @@ export default function ProductInfo({product}: {product: TProduct}) {
                 ))}
             </div>
 
+            <h2 className="text-xl font-semibold mb-2">Stock</h2>
+            <p className="text-gray-500 space-y-1 text-lg mb-4">
+                {product.stock ? product.stock : "Out of Stock"}
+            </p>
+
             {/* Buttons */}
-            <Button className="mb-5 text-black" color="warning" size="lg" onClick={handleAddToCart}>
-                Add to Cart
+            <Button 
+                className="mb-5 text-black" 
+                color="warning" size="lg" 
+                onClick={handleAddToCart}
+                disabled={product.stock ? false : true}
+            >
+                Add to cart
             </Button>
             {/* <Button className="mb-5" size="lg">
                 Add to Cart

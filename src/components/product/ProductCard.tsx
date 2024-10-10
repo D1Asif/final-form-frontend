@@ -11,7 +11,7 @@ export const ProductCard = ({ product }: { product: TProduct }) => {
             </div>}
             <Card className='max-w-full'>
                 <CardHeader>
-                    <img src={product.images[0]} className="rounded-t-xl" alt="image" height={300} />
+                    <img src={product.images[0]} className="rounded-t-xl h-[400px] w-full object-cover" alt="image" height={300} />
                 </CardHeader>
                 <CardContent className="space-y-3">
                     <CardTitle>

@@ -50,7 +50,7 @@ export default function AboutUsPage() {
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
             {
               teamMembers.map((teamMember) => (
-                <LeaderCard teamMemberInfo={teamMember} />
+                <LeaderCard teamMemberInfo={teamMember} key={teamMember.name} />
               ))
             }
           </div>

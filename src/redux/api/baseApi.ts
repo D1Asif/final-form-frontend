@@ -20,7 +20,10 @@ export const baseApi = createApi({
                 }
                 return newQueryArgs;
             },
-            merge: (currentCache, newItems) => {
+            merge: (currentCache, newItems, {arg}) => {
+                if (arg?.page === 1 || !arg?.page) {
+                    return newItems;
+                }
                 if (newItems?.data?.length === 0) {
                     return {
                         ...currentCache,

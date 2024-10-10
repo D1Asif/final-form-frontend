@@ -49,8 +49,6 @@ const CheckoutPage = () => {
     createOrder(body)
   }
 
-  console.log(data);
-
   useEffect(() => {
     if (data?.success) {
       dispatch(clearCart())
