@@ -1,12 +1,15 @@
 import { Button, toast } from "keep-react";
 import { CreditCard, GlobeHemisphereEast, Recycle, Star } from "phosphor-react";
 import { TProduct } from "../../interface/product";
-import { useAppDispatch } from "../../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { addToCart } from "../../redux/features/cart/cartSlice";
 
 
 export default function ProductInfo({product}: {product: TProduct}) {
     const dispatch = useAppDispatch();
+    const {items} = useAppSelector((selector) => selector.cart)
+
+    const isInCart = items.find((item) => item.productId === product._id);
 
     const handleAddToCart = () => {
         dispatch(addToCart({productId: product._id, quantity: 1, price: product.price}))
@@ -65,13 +68,10 @@ export default function ProductInfo({product}: {product: TProduct}) {
                 className="mb-5 text-black" 
                 color="warning" size="lg" 
                 onClick={handleAddToCart}
-                disabled={product.stock ? false : true}
+                disabled={isInCart?.quantity === product.stock || !product.stock}
             >
                 Add to cart
             </Button>
-            {/* <Button className="mb-5" size="lg">
-                Add to Cart
-            </Button> */}
 
             {/* Additional Info */}
             <ul className="space-y-2 text-lg">

@@ -45,6 +45,7 @@ export default function CheckoutOrderSummary({cartItems, isLoading, subtotal, sh
                 <Button
                     size="lg" className="w-full mt-6"
                     type="submit"
+                    disabled={cartItems.length === 0}
                 >
                     {
                         isLoading ? (
