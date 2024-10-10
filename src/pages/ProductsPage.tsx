@@ -4,7 +4,6 @@ import ProductList from "../components/product/ProductList";
 import { useSearchParams } from "react-router-dom";
 import { Spinner } from "keep-react";
 import { TProduct } from "../interface/product";
-import { useGetProductsQuery } from "../redux/api/baseApi";
 
 export default function ProductsPage() {
   const [products, setProducts] = useState<TProduct[]>([]);
@@ -16,22 +15,12 @@ export default function ProductsPage() {
   const params = new URLSearchParams(searchParams);
   params.set("page", page.toString())
 
-  // const { data } = useGetProductsQuery();
-
-  // console.log(data);
-  console.log("called");
-
-  // // console.log(page);
-
-  
-
   const url = `${import.meta.env.VITE_API_BASE_URL}/products` + "?" + params.toString()
 
   useEffect(() => {
     setProducts([])
     setPage(1)
     setHasMore(true)
-    console.log("Called");
   }, [searchParams])
 
   useEffect(() => {

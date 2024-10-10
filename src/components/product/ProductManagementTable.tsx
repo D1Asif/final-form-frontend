@@ -17,46 +17,21 @@ import {
 } from 'keep-react'
 import AddNewProductModal from './AddNewProductModal';
 import { useEffect, useState } from 'react';
-import { TProduct } from '../../interface/product';
 import DeleteProductConfirmationModal from './DeleteProductConfirmationModal';
+import { useGetProductsQuery } from '../../redux/api/baseApi';
+import { TProduct } from '../../interface/product';
 
 export const ProductManagementTable = () => {
-    const [products, setProducts] = useState<TProduct[]>([]);
-    const [hasMore, setHasMore] = useState(true);
-    const [loading, setLoading] = useState(false);
     const [page, setPage] = useState(1);
 
-    const params = new URLSearchParams()
-    params.set("page", page.toString())
-
-    const url = `${import.meta.env.VITE_API_BASE_URL}/products` + "?" + params.toString()
-
-    useEffect(() => {
-        const fetchMore = async () => {
-            setLoading(true)
-            try {
-                const res = await fetch(url)
-                const data = await res.json()
-
-                setProducts((prevProducts) => [...prevProducts, ...data.data]);
-
-                if (data.data.length === 0) {
-                    setHasMore(false);
-                }
-            } catch (err) {
-                console.log("Failed to fetch products", err);
-            } finally {
-                setLoading(false)
-            }
-        }
-
-        fetchMore()
-    }, [url])
+    const { data, isLoading } = useGetProductsQuery({page})
+    const products = data?.data;
+    const allFetched = data?.allFetched;
 
     useEffect(() => {
         const handleScroll = () => {
             if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 700
-                && !loading && hasMore
+                && !isLoading && !allFetched
             ) {
                 setPage((prev) => prev + 1)
             }
@@ -65,7 +40,7 @@ export const ProductManagementTable = () => {
         window.addEventListener("scroll", handleScroll)
 
         return () => window.removeEventListener("scroll", handleScroll)
-    }, [hasMore, loading])
+    }, [allFetched, isLoading])
 
     return (
         <>
@@ -75,7 +50,7 @@ export const ProductManagementTable = () => {
                         <div className="flex items-center gap-5">
                             <h2 className="text-heading-5 font-semibold text-metal-900 dark:text-white">Total Product</h2>
                             <Badge className="dark:bg-metal-800 dark:text-white">
-                                {products.length} Products
+                                {products?.length} Products
                             </Badge>
                         </div>
                         <div className="flex items-center gap-5">
@@ -108,9 +83,9 @@ export const ProductManagementTable = () => {
                     </TableRow>
                 </TableHeader>
                 {
-                    products.length > 0 && (
+                    products?.length > 0 && (
                         <TableBody>
-                            {products?.map((product) => (
+                            {products?.map((product: TProduct) => (
                                 <TableRow key={product._id}>
                                     <TableCell className='text-lg'>{product.name}</TableCell>
                                     <TableCell className='text-lg'>{product.price}</TableCell>
@@ -139,14 +114,14 @@ export const ProductManagementTable = () => {
                 }
             </Table >
             {
-                loading && (
+                isLoading && (
                     <div className="flex justify-center pt-14 pb-6">
                         <Spinner color="info" size="lg" />
                     </div>
                 )
             }
             {
-                products.length === 0 && !hasMore && (
+                !products && !allFetched && !isLoading && (
                     <h1 className="text-heading-6 text-center py-8">No Product found!</h1>
                 )
             }

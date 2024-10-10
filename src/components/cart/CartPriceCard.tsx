@@ -1,9 +1,9 @@
 import { Button } from "keep-react";
 import { Link } from "react-router-dom";
+import { TCartItem } from "../../redux/features/cart/cartSlice";
 
-
-export default function CartPriceCard({ cartItems }) {
-    const subtotal = cartItems.reduce((acc, item) => acc + item.price, 0);
+export default function CartPriceCard({ cartItems }: {cartItems: TCartItem[]}) {
+    const subtotal = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
     const shipping = 10;
     const total = subtotal + shipping;
 

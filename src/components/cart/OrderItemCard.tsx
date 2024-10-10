@@ -1,33 +1,68 @@
+import { Link } from "react-router-dom";
+import { useGetProductByIdQuery } from "../../redux/api/baseApi"
+import { deleteCartItem, TCartItem, updateQuantity } from "../../redux/features/cart/cartSlice"
+import { NumberInput, NumberInputBox, NumberInputButton } from "keep-react";
+import { Minus, Plus } from "phosphor-react";
+import { useAppDispatch } from "../../redux/hooks";
 
-export default function OrderItemCard({ item, fromCart }) {
+type TOrderItemCard = {
+    cartItem: TCartItem,
+    fromCart?: boolean
+}
+
+export default function OrderItemCard({ cartItem, fromCart }: TOrderItemCard) {
+    const { data } = useGetProductByIdQuery(cartItem.productId);
+    const item = data?.data;
+
+    const dispatch = useAppDispatch()
+
     return (
         <div
             className="flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0 border-b border-gray-200 pb-6"
         >
             {/* Product Image and Description */}
-            <div className="flex items-center w-full md:w-auto space-x-4">
+            <div className="flex items-center w-full md:w-auto gap-6">
                 <img
-                    src={item.image}
+                    src={item.images[0]}
                     alt={item.name}
                     className="w-24 h-24 object-cover rounded-md"
                 />
-                <div>
-                    <h2 className="text-lg font-semibold text-gray-800">{item.name}</h2>
-                    <p className="text-sm text-gray-500">{item.description}</p>
+                <div className="max-w-[500px]">
+                    <Link to={`/products/${item._id}`}>
+                        <h2 className="text-lg font-semibold text-gray-800">{item.name}</h2>
+                    </Link>
+                    <p className="text-sm text-gray-500">{item.category}</p>
                 </div>
             </div>
 
             {/* Quantity, Price, and Remove Button */}
-            <div className="flex items-center justify-between w-full md:w-auto space-x-4">
+            <div className="flex items-center justify-between w-full md:w-[320px]">
                 {fromCart && (
-                    <select className="border border-gray-300 rounded-md p-2">
-                        <option>1</option>
-                        {/* Add dynamic quantity logic here */}
-                    </select>
+                    // <select className="border border-gray-300 rounded-md p-2">
+                    //     <option>1</option>
+                    //     {/* Add dynamic quantity logic here */}
+                    // </select>
+                    <NumberInput className="max-w-xs">
+                        <NumberInputButton
+                            disabled={cartItem.quantity === 1}
+                            onClick={() => dispatch(updateQuantity({ productId: cartItem.productId, quantity: -1 }))}
+                        >
+                            <Minus size={16} color="#455468" />
+                        </NumberInputButton>
+                        <NumberInputBox disabled value={cartItem.quantity} className="w-12 border-x mx-4" />
+                        <NumberInputButton
+                            onClick={() => dispatch(updateQuantity({ productId: cartItem.productId, quantity: +1 }))}
+                        >
+                            <Plus size={16} color="#455468" />
+                        </NumberInputButton>
+                    </NumberInput>
                 )}
-                <p className="text-lg font-medium text-gray-900">${item.price.toFixed(2)}</p>
+                <p className="text-lg font-medium text-gray-900">${(item.price * cartItem.quantity).toFixed(2)}</p>
                 {fromCart && (
-                    <button className="text-red-500 hover:text-red-600 transition-colors">
+                    <button
+                        className="text-red-500 hover:text-red-600 transition-colors"
+                        onClick={() => dispatch(deleteCartItem({ productId: cartItem.productId }))}
+                    >
                         <svg
                             className="w-6 h-6"
                             fill="none"
