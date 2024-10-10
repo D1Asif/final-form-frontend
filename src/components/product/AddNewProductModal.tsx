@@ -51,8 +51,6 @@ const AddNewProductModal = ({ editingProduct }: { editingProduct?: TProduct }) =
             tags: formState.tags ? formState.tags.split(",") : []
         }
 
-        console.log(body);
-
         if (editingProduct) {
             updateProduct({
                 productId: editingProduct._id,

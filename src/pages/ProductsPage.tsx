@@ -20,19 +20,15 @@ export default function ProductsPage() {
   const ref = useRef<AbortController>();
 
   useEffect(() => {
-    console.log("called 1");
     setProducts([])
     setPage(1)
     setHasMore(true)
   }, [searchParams])
 
   useEffect(() => {
-    console.log("called 2");
     const fetchMoreProducts = async () => {
       setLoading(true);
       try {
-        console.log(`Before: fetch called with ${fetch_url}, Previous data: ${products.length}, searchParam size: ${searchParams.size}`);
-
         if (ref.current) {
           ref.current.abort()
         }
@@ -44,7 +40,6 @@ export default function ProductsPage() {
         const data = await response.json();
 
         // Append new products to the current list of products
-        console.log(`After: fetch called with ${fetch_url}, Previous data: ${products.length}`);
         setProducts((prevProducts) => [...prevProducts, ...data.data]);
 
         // If no more products are returned, set hasMore to false
@@ -61,22 +56,21 @@ export default function ProductsPage() {
     fetchMoreProducts()
   }, [fetch_url]);
 
-  // useEffect(() => {
-  //   console.log("called 3");
-  //   const handleScroll = () => {
-  //     if (
-  //       window.innerHeight + window.scrollY >= document.body.offsetHeight - 700 &&
-  //       !loading &&
-  //       hasMore
-  //     ) {
-  //       setPage((prevPage) => prevPage + 1);
-  //     }
-  //   };
+  useEffect(() => {
+    const handleScroll = () => {
+      if (
+        window.innerHeight + window.scrollY >= document.body.offsetHeight - 700 &&
+        !loading &&
+        hasMore
+      ) {
+        setPage((prevPage) => prevPage + 1);
+      }
+    };
 
-  //   window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll);
 
-  //   return () => window.removeEventListener("scroll", handleScroll);
-  // }, [hasMore, loading]);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [hasMore, loading]);
 
   return (
     <div className="px-6 md:px-10 pt-28 md:pt-[135px] mb-10">

@@ -1,5 +1,5 @@
 import { Button, Checkbox, Dropdown, DropdownAction, DropdownContent, DropdownList, Label, NumberInputBox, Radio, Slider } from "keep-react";
-import { Link, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { useDebounce } from "../../hooks/useDebounce";
 import { useEffect, useState } from "react";
 
