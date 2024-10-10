@@ -1,14 +1,16 @@
-import { Button } from "keep-react";
+import { Button, Spinner } from "keep-react";
 import OrderItemCard from "../cart/OrderItemCard";
-import { useAppSelector } from "../../redux/hooks";
+import { TCartItem } from "../../redux/features/cart/cartSlice";
 
+type TCheckoutOrderSummaryProps = {
+    cartItems: TCartItem[],
+    isLoading: boolean,
+    subtotal: number,
+    shipping: number,
+    total: number,
+}
 
-export default function CheckoutOrderSummary() {
-    const { items: cartItems } = useAppSelector((selector) => selector.cart);
-
-    const subtotal = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
-    const shipping = 10;
-    const total = subtotal + shipping;
+export default function CheckoutOrderSummary({cartItems, isLoading, subtotal, shipping, total}: TCheckoutOrderSummaryProps) {
 
     return (
         <div className="flex-grow">
@@ -33,14 +35,25 @@ export default function CheckoutOrderSummary() {
                     </div>
                     <div className="flex justify-between text-lg">
                         <span>Shipping:</span>
-                        <span>$10</span>
+                        <span>${shipping}</span>
                     </div>
                     <div className="border-t border-gray-200 pt-4 flex justify-between font-bold text-xl text-slate-800">
                         <span>Total:</span>
                         <span>${total}</span>
                     </div>
                 </div>
-                <Button size="lg" className="w-full mt-6">Place Order</Button>
+                <Button
+                    size="lg" className="w-full mt-6"
+                    type="submit"
+                >
+                    {
+                        isLoading ? (
+                            <Spinner />
+                        ) : (
+                            "Place Order"
+                        )
+                    }
+                </Button>
             </div>
         </div>
     )

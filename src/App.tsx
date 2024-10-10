@@ -9,6 +9,7 @@ import CartPage from './pages/CartPage'
 import CheckoutPage from './pages/CheckoutPage'
 import ProductManagementPage from './pages/ProductManagementPage'
 import { ToastWrapper } from 'keep-react'
+import OrderSuccessPage from './pages/OrderSuccessPage'
 
 function App() {
 
@@ -39,6 +40,7 @@ function App() {
           <Route path='/checkout' element={<CheckoutPage />} />
           <Route path='/product-management' element={<ProductManagementPage />} />
           <Route path='/about-us' element={<AboutUsPage />} />
+          <Route path='/order-success' element={<OrderSuccessPage />} />
         </Route>
       </Routes>
     </div>

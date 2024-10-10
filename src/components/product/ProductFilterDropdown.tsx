@@ -1,5 +1,5 @@
 import { Button, Checkbox, Dropdown, DropdownAction, DropdownContent, DropdownList, Label, NumberInputBox, Radio, Slider } from "keep-react";
-import { useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { useDebounce } from "../../hooks/useDebounce";
 import { useEffect, useState } from "react";
 
@@ -114,6 +114,11 @@ export default function ProductFilterDropdown() {
                             <Label htmlFor="-price">Price High to Low</Label>
                         </fieldset>
                     </form>
+                    <Button className="mt-5" size="sm">
+                        <Link to="/products">
+                            Clear Filter
+                        </Link>
+                    </Button>
                 </DropdownList>
             </DropdownContent>
         </Dropdown>
