@@ -88,7 +88,7 @@ export default function ProductsPage() {
         )
       }
       {
-        loading && (
+        (loading || (hasMore && products.length === 0)) && (
           <div className="flex justify-center pt-14 pb-6">
             <Spinner color="info" size="lg" />
           </div>
