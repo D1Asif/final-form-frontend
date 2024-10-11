@@ -10,6 +10,7 @@ import CheckoutPage from './pages/CheckoutPage'
 import ProductManagementPage from './pages/ProductManagementPage'
 import { ToastWrapper } from 'keep-react'
 import OrderSuccessPage from './pages/OrderSuccessPage'
+import NotFoundPage from './pages/NotFoundPage'
 
 function App() {
 
@@ -41,6 +42,7 @@ function App() {
           <Route path='/product-management' element={<ProductManagementPage />} />
           <Route path='/about-us' element={<AboutUsPage />} />
           <Route path='/order-success' element={<OrderSuccessPage />} />
+          <Route path='*' element={<NotFoundPage />} />
         </Route>
       </Routes>
     </div>
