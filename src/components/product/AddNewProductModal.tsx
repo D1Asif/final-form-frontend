@@ -139,7 +139,7 @@ const AddNewProductModal = ({ editingProduct }: { editingProduct?: TProduct }) =
                         </div>
                     </fieldset>
                     <fieldset className="space-y-1">
-                        <Label htmlFor="images">Images*</Label>
+                        <Label htmlFor="images">Images* (Separated by |)</Label>
                         <div className="relative">
                             <Textarea
                                 value={formState.images}
@@ -201,7 +201,7 @@ const AddNewProductModal = ({ editingProduct }: { editingProduct?: TProduct }) =
                         </div>
                     </fieldset>
                     <fieldset className="space-y-1">
-                        <Label htmlFor="tags">Tags</Label>
+                        <Label htmlFor="tags">Tags (Separated by comma)</Label>
                         <div className="relative">
                             <Input 
                                 id="tags" 

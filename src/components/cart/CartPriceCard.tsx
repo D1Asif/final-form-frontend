@@ -2,7 +2,7 @@ import { Button } from "keep-react";
 import { Link } from "react-router-dom";
 import { TCartItem } from "../../redux/features/cart/cartSlice";
 
-export default function CartPriceCard({ cartItems }: {cartItems: TCartItem[]}) {
+export default function CartPriceCard({ cartItems }: { cartItems: TCartItem[] }) {
     const subtotal = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
     const shipping = 10;
     const total = subtotal + shipping;
@@ -35,7 +35,9 @@ export default function CartPriceCard({ cartItems }: {cartItems: TCartItem[]}) {
                     <Link to="/checkout">
                         <Button size="lg" className="w-full">Checkout</Button>
                     </Link>
-                    <Button size="lg" variant="outline">Continue Shipping</Button>
+                    <Link to="/products">
+                        <Button size="lg" variant="outline" className="w-full">Continue Shipping</Button>
+                    </Link>
                 </div>
             </div>
         </div>

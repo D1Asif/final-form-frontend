@@ -48,6 +48,7 @@ export const baseApi = createApi({
         }),
         getProductById: builder.query({
             query: (productId) => `/products/${productId}`,
+            providesTags: ["products"]
         }),
         addProduct: builder.mutation({
             query: (data) => ({
@@ -77,7 +78,8 @@ export const baseApi = createApi({
                 url: "/orders",
                 method: "POST",
                 body: data
-            })
+            }),
+            invalidatesTags: ["products"]
         })
     }),
 })
